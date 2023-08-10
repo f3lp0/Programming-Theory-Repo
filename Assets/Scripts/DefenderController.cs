@@ -4,21 +4,48 @@ using UnityEngine;
 
 public class DefenderController : PlayerController
 {
+    // Variables
+    private float forceAttenuation = 40;
+    private float speedAttenuation = 10;
     protected override void MovePlayer(float speed, float torque)
     {
         horizontalInput = Input.GetAxis("Horizontal");
         verticalInput = Input.GetAxis("Vertical");
-        playerRb.AddForce(Vector3.left * speed * verticalInput);
-        playerRb.AddTorque(Vector3.left * torque * horizontalInput);
+        if (transform.position.x > xLimit)
+        {
+            transform.position = new Vector3(xLimit, transform.position.y, transform.position.z);
+        }
+        if (transform.position.x < -xLimit)
+        {
+            transform.position = new Vector3(-xLimit, transform.position.y, transform.position.z);
+        }
+        else
+        {
+            transform.Translate(Vector3.left * speed * verticalInput * Time.deltaTime / speedAttenuation);
+
+        }
+        playerRb.AddTorque(Vector3.left * torque * 100 * horizontalInput / forceAttenuation / forceAttenuation, ForceMode.VelocityChange);
     }
 
     protected override void MovePlayer(float speed)
     {
         horizontalInput = Input.GetAxis("Horizontal");
         verticalInput = Input.GetAxis("Vertical");
-        //playerRb.AddForce(Vector3.left * speed * verticalInput);
-        //playerRb.AddTorque(Vector3.left * torque * horizontalInput);
-        playerRb.transform.Translate(Vector3.forward * speed * horizontalInput / 200);
-        playerRb.transform.Rotate(Vector3.left, speed * verticalInput / 200);
+        if (transform.position.x > xLimit)
+        {
+            transform.position = new Vector3(xLimit, transform.position.y, transform.position.z);
+        }
+        if (transform.position.x < -xLimit)
+        {
+            transform.position = new Vector3(-xLimit, transform.position.y, transform.position.z);
+        }
+        else
+        {
+            transform.Translate(Vector3.left * speed * verticalInput * Time.deltaTime / speedAttenuation);
+
+        }
+        transform.RotateAround(new Vector3(0, 4, 2), Vector3.left, speed * horizontalInput * Time.deltaTime / rateRotation / speedAttenuation);
+        playerRb.AddTorque(Vector3.left * speed * horizontalInput / rateSpeed / speedAttenuation / forceAttenuation, ForceMode.Acceleration);
+
     }
 }

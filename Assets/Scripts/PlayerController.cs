@@ -32,8 +32,8 @@ public class PlayerController : MonoBehaviour
     {
         if (gameManager.isGameActive)
         {
-            //MovePlayer(speed, torque);
-            MovePlayer(speed);
+            MovePlayer(speed, torque);
+            //MovePlayer(speed);
         }
     }
 
@@ -52,7 +52,7 @@ public class PlayerController : MonoBehaviour
         else
         {
             //playerRb.AddForce(Vector3.left * speed * verticalInput);
-            transform.Translate(Vector3.left * speed * verticalInput * Time.deltaTime / rateSpeed);
+            transform.Translate(Vector3.left * speed * verticalInput * Time.deltaTime);
 
         }
         playerRb.AddTorque(Vector3.left * torque * 100 * horizontalInput, ForceMode.Impulse);
@@ -75,12 +75,13 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            transform.Translate(Vector3.left * speed * verticalInput * Time.deltaTime / rateSpeed);
+            transform.Translate(Vector3.left * speed * verticalInput * Time.deltaTime);
             
         }
         //transform.Rotate(Vector3.left * speed * horizontalInput / rateRotation, playerRb.centerOfMass.y);
         //transform.Rotate(Vector3.left * speed * horizontalInput *Time.deltaTime / rateRotation, Space.World);
         transform.RotateAround(new Vector3(0, 4, 2), Vector3.left, speed * horizontalInput * Time.deltaTime / rateRotation);
+        playerRb.AddTorque(Vector3.left * speed * horizontalInput / rateSpeed, ForceMode.Acceleration);
         
     }
 }
