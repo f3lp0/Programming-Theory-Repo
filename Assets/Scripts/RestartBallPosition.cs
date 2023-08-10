@@ -27,7 +27,7 @@ public class RestartBallPosition : MonoBehaviour
 
     public void RestartBall()
     {
-        gameManager.SpawnBall();
         Destroy(gameObject);
+        gameManager.SpawnBall();        
     }
 }

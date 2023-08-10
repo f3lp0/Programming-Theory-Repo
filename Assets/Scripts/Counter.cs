@@ -26,9 +26,12 @@ public class Counter : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        goals += 1;
-        scoreText.text = "Score : " + goals;
-        Destroy(other.gameObject);
-        gameManager.SpawnBall();
+        if (gameManager.isGameActive && other.CompareTag("Ball"))
+        {
+            goals += 1;
+            scoreText.text = "Score : " + goals;
+            Destroy(other.gameObject);
+            gameManager.SpawnBall();
+        }        
     }
 }

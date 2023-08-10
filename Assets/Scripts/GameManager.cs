@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour
 {
     // Variables
     private float timeLeft = 45;
-    private float spawnRate = 5.0f;
+    private float spawnRate = 3.0f;
 
     public bool isGameActive;
     public Text timerText;

@@ -6,13 +6,16 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     // Variables
-    private Rigidbody playerRb;
-    [SerializeField] float speed;
-    [SerializeField] float torque;
-    private float horizontalInput;
-    private float verticalInput;
+    protected Rigidbody playerRb;
+    [SerializeField] protected float speed;
+    [SerializeField] protected float torque;
+    [SerializeField] protected float rateSpeed;
+    [SerializeField] protected float rateRotation;
+    protected float horizontalInput;
+    protected float verticalInput;
+    protected float xLimit = 3.4f;
 
-    private GameManager gameManager;
+    protected GameManager gameManager;
     //private RestartBallPosition restartBall;
 
     // Start is called before the first frame update
@@ -29,10 +32,55 @@ public class PlayerController : MonoBehaviour
     {
         if (gameManager.isGameActive)
         {
-            horizontalInput = Input.GetAxis("Horizontal");
-            verticalInput = Input.GetAxis("Vertical");
-            playerRb.AddForce(Vector3.left * speed * verticalInput);
-            playerRb.AddTorque(Vector3.left * torque * horizontalInput);
-        }        
+            //MovePlayer(speed, torque);
+            MovePlayer(speed);
+        }
+    }
+
+    protected virtual void MovePlayer(float speed, float torque)
+    {
+        horizontalInput = Input.GetAxis("Horizontal");
+        verticalInput = Input.GetAxis("Vertical");
+        if (transform.position.x > xLimit)
+        {
+            transform.position = new Vector3(xLimit, transform.position.y, transform.position.z);
+        }
+        if (transform.position.x < -xLimit)
+        {
+            transform.position = new Vector3(-xLimit, transform.position.y, transform.position.z);
+        }
+        else
+        {
+            //playerRb.AddForce(Vector3.left * speed * verticalInput);
+            transform.Translate(Vector3.left * speed * verticalInput * Time.deltaTime / rateSpeed);
+
+        }
+        playerRb.AddTorque(Vector3.left * torque * 100 * horizontalInput, ForceMode.Impulse);
+        //transform.Rotate(Vector3.left * speed * horizontalInput * Time.deltaTime / rateRotation, Space.Self);
+    }
+
+    protected virtual void MovePlayer(float speed)
+    {
+        horizontalInput = Input.GetAxis("Horizontal");
+        verticalInput = Input.GetAxis("Vertical");
+        //playerRb.AddForce(Vector3.left * speed * verticalInput);
+        //playerRb.AddTorque(Vector3.left * torque * horizontalInput);
+        if (transform.position.x > xLimit)
+        {
+            transform.position = new Vector3(xLimit, transform.position.y, transform.position.z);
+        }
+        if (transform.position.x < -xLimit)
+        {
+            transform.position = new Vector3(-xLimit, transform.position.y, transform.position.z);
+        }
+        else
+        {
+            transform.Translate(Vector3.left * speed * verticalInput * Time.deltaTime / rateSpeed);
+            
+        }
+        //transform.Rotate(Vector3.left * speed * horizontalInput / rateRotation, playerRb.centerOfMass.y);
+        //transform.Rotate(Vector3.left * speed * horizontalInput *Time.deltaTime / rateRotation, Space.World);
+        transform.RotateAround(new Vector3(0, 4, 2), Vector3.left, speed * horizontalInput * Time.deltaTime / rateRotation);
+        
     }
 }
