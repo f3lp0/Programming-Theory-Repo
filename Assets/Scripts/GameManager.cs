@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+    // Encapsulation
+    public static GameManager Instance { get; private set; }
+
     // Variables
     private float timeLeft = 45;
     private float spawnRate = 3.0f;
@@ -16,8 +19,16 @@ public class GameManager : MonoBehaviour
     public List<GameObject> obstaclePrefabs;
 
     // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+
         isGameActive = true;
         SpawnBall();
         StartCoroutine(SpawnObstacle());

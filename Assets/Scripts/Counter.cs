@@ -8,7 +8,22 @@ public class Counter : MonoBehaviour
 {
     // Variables
     public Text scoreText;
-    private int goals = 0;
+    public int m_goals = 0;
+    public int goals
+        {
+            get { return m_goals; }
+            set 
+            {
+            if (value < 0)
+            {
+                Debug.LogError("You can't have a negative goal!");
+            }
+            else
+            {
+                m_goals = value;
+            }
+        }
+        }
     private GameManager gameManager;
 
     // Start is called before the first frame update
