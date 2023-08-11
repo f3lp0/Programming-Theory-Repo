@@ -2,15 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// INHERITANCE
 public class DefenderController : PlayerController
 {
     // Variables
     private float forceAttenuation = 40;
     private float speedAttenuation = 10;
+
+    // POLYMORPHISM
+    // overriding function
     protected override void MovePlayer(float speed, float torque)
     {
-        //horizontalInput = Input.GetAxis("Horizontal");
-        //verticalInput = Input.GetAxis("Vertical");
         if (isInXLimits())
         {
             transform.Translate(Vector3.left * speed * verticalInput * Time.deltaTime / speedAttenuation);
@@ -20,8 +22,6 @@ public class DefenderController : PlayerController
 
     protected override void MovePlayer(float speed)
     {
-        //horizontalInput = Input.GetAxis("Horizontal");
-        //verticalInput = Input.GetAxis("Vertical");
         if (isInXLimits())
         {
             transform.Translate(Vector3.left * speed * verticalInput * Time.deltaTime / speedAttenuation);

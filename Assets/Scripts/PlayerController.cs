@@ -16,15 +16,12 @@ public class PlayerController : MonoBehaviour
     protected float xLimit = 3.4f;
 
     protected GameManager gameManager;
-    //private RestartBallPosition restartBall;
 
     // Start is called before the first frame update
     void Start()
     {
         playerRb = GetComponent<Rigidbody>();
         gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
-        //restartBall = GameObject.Find("Ball(Clone)").GetComponent<RestartBallPosition>();
-        //restartBall = FindObjectOfType<RestartBallPosition>();
     }
 
     // Update is called once per frame
@@ -34,15 +31,17 @@ public class PlayerController : MonoBehaviour
         {
             horizontalInput = Input.GetAxis("Horizontal");
             verticalInput = Input.GetAxis("Vertical");
-            MovePlayer(speed, torque);
-            //MovePlayer(speed);
+            // ABSTRACTION
+            // MovePlayer() is used to move the player
+            MovePlayer(speed, torque); // move the player with speed and torque
+            //MovePlayer(speed); // move the player with only speed
         }
     }
 
+    // POLYMORPHISM
+    // overload function
     protected virtual void MovePlayer(float speed, float torque)
     {
-        //horizontalInput = Input.GetAxis("Horizontal");
-        //verticalInput = Input.GetAxis("Vertical");
         if (isInXLimits())
         {
             transform.Translate(Vector3.left * speed * verticalInput * Time.deltaTime);
@@ -52,8 +51,6 @@ public class PlayerController : MonoBehaviour
 
     protected virtual void MovePlayer(float speed)
     {
-        //horizontalInput = Input.GetAxis("Horizontal");
-        //verticalInput = Input.GetAxis("Vertical");
         if (isInXLimits())
         {
             transform.Translate(Vector3.left * speed * verticalInput * Time.deltaTime);
@@ -62,6 +59,8 @@ public class PlayerController : MonoBehaviour
         playerRb.AddTorque(Vector3.left * speed * horizontalInput / rateSpeed, ForceMode.Acceleration);        
     }
 
+    // ABSTRACTION
+    // isInXLimits() is used to avoid the player to leave the stadium
     protected bool isInXLimits()
     {
         if (transform.position.x > xLimit)
