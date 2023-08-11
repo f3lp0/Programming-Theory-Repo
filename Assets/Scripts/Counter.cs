@@ -8,6 +8,8 @@ public class Counter : MonoBehaviour
 {
     // Variables
     public Text scoreText;
+
+    // Encapsulation
     public int m_goals = 0;
     public int goals
         {
